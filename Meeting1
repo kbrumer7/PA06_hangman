@@ -1,0 +1,60 @@
+import random
+
+def generate_random_word():
+    words="chair blanket dog flower lamp horse house picture photo unicorn phone window cup candy remote book zoom spoon trash panda sloth".split()
+    word=random.choice(words)
+    return word
+
+def play_hangman():
+    playing = True
+
+
+    while (playing):
+        guessed_letters = []
+        #correct_guesses=[]
+        guesses_left = 10
+        word = generate_random_word()
+        letter = input("Pick a letter:")
+        done = False
+        dashes=len(list(word))*"'-'"
+        while not done and guesses_left>0:
+            if letter in guessed_letters:
+                guesses_left-=1 #subtract one from guesses_left
+                print("You have already guessed the letter",letter,".") #and tell them they already guessed that letter
+            elif letter not in list(word):
+                guessed_letters+=letter #add letter to guessed letters
+                print(letter,"is not in the word.") #tell user the letter is not in the word
+                guesses_left-=1 #subtract one from the guesses_left
+                print(guessed_letters,guesses_left)
+            elif letter in list(word):
+                guessed_letters+=letter #add letter to guessed letters
+                #correct_guesses+=letter
+                dashes+=letter
+                print(letter,"is in the word!") #tell user the letter is in the word
+                print(guessed_letters,guesses_left)
+            if list(word) in guessed_letters: #all the letters in the word have been guessed
+                done=True
+                print("Congrats, you guessed the word correctly!")#set done to be true and tell the user they won!
+            elif guesses_left==0: #the number of guesses left is zero
+                done=True #set done to be true and tell the user they lost!
+                print("You ran out of guesses. Sorry, you lost :(")
+            else:
+                dashes=[]
+                for d in list(word):
+                    if letter in correct_guesses:
+                        dashes+=letter
+                    else:
+                        dashes+='-'
+                #print(dashes)
+                    #if letter==d:
+                        #print(letter,end=" ")
+                    else:
+                        print("-",end=" ") #print the word with a dash for each letter not in guessed_letters
+                letter = input("Pick a letter:")#ask the user for another letter
+        want_to_play = input("Would you like to play again?[yes]/[no]")#ask the user if they want to play another game...
+        if want_to_play=="yes":
+            playing=True
+        elif want_to_play=="no":
+            playing=False
+        
+play_hangman()
