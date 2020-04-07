@@ -1,3 +1,5 @@
+# updated version where the dashes work, but the correct answer still does not
+
 import random
 
 def generate_random_word():
@@ -11,24 +13,25 @@ def play_hangman():
 
     while (playing):
         guessed_letters = []
-        #correct_guesses=[]
+        correct_guesses=[]
         guesses_left = 10
         word = generate_random_word()
         letter = input("Pick a letter:")
         done = False
         dashes=len(list(word))*"'-'"
-        while not done and guesses_left>0:
+        while not done or guesses_left>0:
             if letter in guessed_letters:
                 guesses_left-=1 #subtract one from guesses_left
                 print("You have already guessed the letter",letter,".") #and tell them they already guessed that letter
             elif letter not in list(word):
                 guessed_letters+=letter #add letter to guessed letters
+                correct_guesses+=letter
                 print(letter,"is not in the word.") #tell user the letter is not in the word
                 guesses_left-=1 #subtract one from the guesses_left
                 print(guessed_letters,guesses_left)
             elif letter in list(word):
                 guessed_letters+=letter #add letter to guessed letters
-                #correct_guesses+=letter
+                correct_guesses+=letter
                 dashes+=letter
                 print(letter,"is in the word!") #tell user the letter is in the word
                 print(guessed_letters,guesses_left)
@@ -41,15 +44,12 @@ def play_hangman():
             else:
                 dashes=[]
                 for d in list(word):
-                    if letter in correct_guesses:
+                    if d in correct_guesses:
                         dashes+=letter
                     else:
                         dashes+='-'
-                #print(dashes)
-                    #if letter==d:
-                        #print(letter,end=" ")
-                    else:
-                        print("-",end=" ") #print the word with a dash for each letter not in guessed_letters
+                print(dashes)
+                #print the word with a dash for each letter not in guessed_letters
                 letter = input("Pick a letter:")#ask the user for another letter
         want_to_play = input("Would you like to play again?[yes]/[no]")#ask the user if they want to play another game...
         if want_to_play=="yes":
